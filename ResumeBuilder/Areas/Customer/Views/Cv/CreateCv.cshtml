@@ -1,0 +1,424 @@
+﻿@using ResumeBuilder.CvLogic
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ResumeBuilder.Models.CvModel.CvInformation
+@inject Dictionary<string, Template> templates
+@{ ViewData["Title"] = "Create Resume!";
+    int index = 1;
+}
+<partial name="_Notification" />
+<div>
+    <form asp-action="CreateCv" id="form">
+        <h1 class="display-4 text-center m-5">Create Your Resume!</h1>
+
+        <h4 class="m-4 mt-5">@(index++). Enter A Picture Of Yourself (Optional):</h4>
+        <h6 class="ml-4 text-muted">File size should be less than 100KB and be square.</h6>
+        <div class="m-4">
+            <div class="d-flex align-items-center">
+                <div class="">
+                    <input type="file" id="inputPicture" />
+                </div>
+                <div class="d-none" id="divPicturePreview">
+                    <img id="imgPicturePreview" class="portrait-preview mx-2" style="border-radius: 50%; height: 180px;" />
+                    <input type="button" class="m-5 btn btn-outline-dark" value="Remove" onclick="RemoveSelectedImage()" />
+                    <input type="hidden" id="hidPortraitImage" asp-for="PortraitImage" />
+                    <input type="hidden" id="userId" asp-for="UserId" />
+                    <input type="hidden" id="templateId" value="1" asp-for="TemplateName" />
+                </div>
+            </div>
+        </div>
+
+        <h4 class="m-4 mt-5">@(index++). Enter Your Basic Information:</h4>
+        <h6 class="ml-4 text-muted">You can leave some fields empty if you don't want to be in your CV.</h6>
+        <div class="m-4">
+            <div class="row">
+                <div class="col-md form-group">
+                    First Name:
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md form-group">
+                    Last Name:
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="col-md form-group">
+                    Job Title:
+                    <input asp-for="JobTitle" class="form-control" />
+                    <span asp-validation-for="JobTitle" class="text-danger"></span>
+                </div>
+                <div class="col-md form-group">
+                    Email:
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md form-group">
+                    Birth Date:
+                    <input asp-for="BirthDate" class="form-control" />
+                </div>
+                <div class="col-md form-group">
+                    City/State/Country:
+                    <input asp-for="Address" class="form-control" />
+                </div>
+                <div class="col-md form-group">
+                    Contact Number:
+                    <input asp-for="ContactNumber" class="form-control" />
+                </div>
+                <div class="col-md form-group">
+                    Linkedin Address:
+                    <input asp-for="LinkedinLink" class="form-control" placeholder="linkedin.com/in/your-name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md form-group">
+                    Github Address:
+                    <input asp-for="GithubLink" class="form-control" placeholder="github.com/your-name" />
+                </div>
+                <div class="col-md-3 form-group">
+                    Protfolio/Personal Website:
+                    <input asp-for="PersonalLink" class="form-control" />
+                </div>
+                <div class="col-md-3 form-group">
+                    Skype Number/ID:
+                    <input asp-for="SkypeId" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    Objective:
+                    <textarea asp-for="Objective" class="form-control" rows="3" placeholder="Explain in 3 lines what you have done, what you do well and what you want to work on."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="m-4 mt-5">@(index++). Your Skills</h4>
+        <div class="m-4">
+            <div class="text-center mb-4">
+                <input class="btn btn-secondary" type="button" id="btnAddSkillSet" value="Add Skill Set" />
+            </div>
+            <div class="row" id="divSkills">
+                @for (int i = 0; i < Model.SkillSets.Count; i++)
+                {
+                    @Html.EditorFor(m => Model.SkillSets[i])
+                }
+            </div>
+        </div>
+
+        <h4 class="m-4 mt-5">@(index++). Your Education History</h4>
+        <div class="m-4">
+            <div class="text-center mb-4">
+                <input class="btn btn-secondary" type="button" id="btnAddEducation" value="Add Education" />
+            </div>
+            <div class="row" id="divEducations">
+                @for (var i = 0; i < Model.Educations.Count; i++)
+                {
+                    @Html.EditorFor(m => Model.Educations[i])
+                }
+            </div>
+        </div>
+
+        <h4 class="m-4 mt-5">@(index++). Your Employment History</h4>
+        <div class="m-4">
+            <div class="text-center mb-4">
+                <input class="btn btn-secondary" type="button" id="btnAddEmployment" value="Add Employment" />
+            </div>
+            <div class="row" id="divEmployments">
+                @for (var i = 0; i < Model.Employments.Count; i++)
+                {
+                    @Html.EditorFor(m => Model.Employments[i])
+                }
+            </div>
+        </div>
+
+        <h4 class="m-4  mt-5">@(index++). Your Language Skills</h4>
+        <div class="m-4">
+            <div class="text-center mb-4">
+                <input class="btn btn-secondary" type="button" id="btnAddLanguage" value="Add Language" />
+            </div>
+            <div class="row" id="divLanguages">
+                @for (var i = 0; i < Model.Languages.Count; i++)
+                {
+                    @Html.EditorFor(m => Model.Languages[i])
+                }
+            </div>
+        </div>
+
+        <h4 class="m-4  mt-5">@(index++). Your Projects</h4>
+        <div class="m-4">
+            <div class="text-center mb-4">
+                <input class="btn btn-secondary" type="button" id="btnAddProject" value="Add Project" />
+            </div>
+            <div class="row" id="divProjects">
+                @for (var i = 0; i < Model.Projects.Count; i++)
+                {
+                    @Html.EditorFor(m => Model.Projects[i])
+                }
+            </div>
+        </div>
+
+        <h4 class="m-4 mt-5">@(index++). Optional Settings</h4>
+        <div class="m-4">
+            <div class="row">
+                <div class="col-4 text-center">
+                    <h6 class="mb-4">Margin</h6>
+                    <input type="range" asp-for="Margin" class="custom-range" min="0" max="64" value="32" oninput="document.getElementById('sliderValueMargin').innerHTML = this.value;" />
+                    <div><span id="sliderValueMargin">32</span>px</div>
+                </div>
+                <div class="col-4 text-center">
+                    <h6 class="mb-4">Scale</h6>
+                    <input type="range" asp-for="Scale" class="custom-range" min="70" max="110" value="90" oninput="document.getElementById('sliderValueScale').innerHTML = this.value;" />
+                    <div><span id="sliderValueScale">90</span>%</div>
+                </div>
+                <div class="col-4 text-center">
+                    <h6 class="mb-4">Theme Color</h6>
+                    <span class="theme-color-picker"></span>
+                    <input type="hidden" asp-for="ThemeColor" class="theme-color-value" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 form-group">
+                    Paper Size:
+                    <select asp-for="PaperSize" class="form-control">
+                        <option value="A4">A4</option>
+                        <option value="Letter">Letter</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        @*<h4 class="m-4 mt-5">@(index++). Choose One of Templates:</h4>
+        <div class="m-4">
+            <div class="d-flex align-items-center">
+                <div class="col-3 form-group">
+                    Template Name:
+                    <select asp-for="TemplateName" class="form-control">
+                        @foreach (var t in templates)
+                        {
+                            <option value="@t.Key">@t.Key</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>*@
+
+        <h4 class="m-4 mt-5">That's it!</h4>
+        <div class="text-center">
+            <button type="button" id="btnShowPreview" class="btn btn-primary m-1">
+                <span id="btnShowPreviewSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                <span id="btnShowPreviewText">Show Preview</span>
+            </button>
+        </div>
+
+        <div style="min-height:400px;">
+            <div id="divPreview" class="d-none">
+                <h4 class="m-4 mt-5">Preview:</h4>
+                <div class="row justify-content-center">
+                    <div class="m-4 text-center alert alert-warning d-none" id="divMoreThanOnePageWarning">
+                        <strong>Warning!</strong><br />
+                        Showing only first page! Your CV is more than one page.<br />
+                    </div>
+                    <div class="p-3 d-inline-block" style="background-color:#f6f6f6;">
+                        <canvas id="pdfPreview"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divDownload" class="d-none">
+                <h4 class="m-4 mt-5">Download Your CV!</h4>
+                <div class="row m-4">
+                    <div class="col">
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input" id="chkAgreeSave" asp-for="AgreeSave">
+                            <label class="custom-control-label" for="chkAgreeSave">I am Agree to Save.</label>
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" id="btnSave" class="btn btn-primary disabled" disabled value="Save" />
+                            <input type="submit" id="btnDownloadPdf" asp-action="GetPdf" class="btn btn-success" value="Download PDF" />
+                            <input type="submit" id="btnDownloadHtml" asp-action="GetHtml" class="btn btn-outline-primary" value="Download HTML" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/lib/pdf.js/pdf.min.js"></script>
+    <script src="~/lib/pdf.js/pdf.worker.min.js"></script>
+
+    <script src="~/lib/jquery-colorpickersliders/jquery.colorpickersliders.js"></script>
+    <link rel="stylesheet" href="~/lib/jquery-colorpickersliders/jquery.colorpickersliders.css" />
+    <script src="~/lib/tinycolor.js"></script>
+
+    <link rel="stylesheet" href="~/lib/bootstrap-tagsinput/bootstrap-tagsinput.css" />
+    <script type="text/javascript">
+
+        $("#inputPicture").on("change", function (e) {
+            var file = e.target.files[0];
+            if (!file || !file.type.match("image.*")) {
+                alert("Invalid image file! Please choose a correct image file.")
+                return;
+            }
+            if (file.size > 102400) {
+                alert("File size should be less than 100KB!");
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    $("#divPicturePreview").removeClass("d-none");
+                    $("#imgPicturePreview").attr("src", e.target.result);
+                    $("#hidPortraitImage").attr("value", e.target.result);
+                }
+            })(file);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(file);
+        });
+
+        function RemoveSelectedImage() {
+            $("#divPicturePreview").addClass("d-none");
+            $("#imgPicturePreview").attr("src", null);
+            $("#hidPortraitImage").attr("value", null);
+            $("#inputPicture").val("");
+        }
+
+        function InitializeTagsInput() {
+            $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+        }
+
+        $("#btnAddSkillSet").on("click", function () {
+            $.ajax({
+                url: "/Customer/Cv/AddSkillSet",
+                success: function (partialView) {
+                    var i = $("#divSkills").children().length;
+                    var item = $.parseHTML(partialView);
+                    item = ConvertInputsToBeAsArrayItem(item, "@nameof(Model.SkillSets)", i);
+                    $('#divSkills').append(item);
+                    InitializeTagsInput();
+                    alert("fafa");
+                }
+            });
+        });
+
+        $("#btnAddEducation").on("click", function () {
+            $.ajax({
+                url: "/Customer/Cv/AddEducation",
+                success: function (partialView) {
+                    var i = $("#divEducations").children().length;
+                    var item = $.parseHTML(partialView);
+                    item = ConvertInputsToBeAsArrayItem(item, "@nameof(Model.Educations)", i);
+                    $('#divEducations').append(item);
+                }
+            });
+        });
+
+        $("#btnAddEmployment").on("click", function () {
+            $.ajax({
+                url: "/Customer/Cv/AddEmployment",
+                success: function (partialView) {
+                    var i = $("#divEmployments").children().length;
+                    var item = $.parseHTML(partialView);
+                    item = ConvertInputsToBeAsArrayItem(item, "@nameof(Model.Employments)", i);
+                    $('#divEmployments').append(item);
+                }
+            });
+        });
+
+        $("#btnAddLanguage").on("click", function () {
+            $.ajax({
+                url: "/Customer/Cv/AddLanguageSkill",
+                success: function (partialView) {
+                    var i = $("#divLanguages").children().length;
+                    var item = $.parseHTML(partialView);
+                    item = ConvertInputsToBeAsArrayItem(item, "@nameof(Model.Languages)", i);
+                    $('#divLanguages').append(item);
+                }
+            });
+        });
+
+        $("#btnAddProject").on("click", function () {
+            $.ajax({
+                url: "/Customer/Cv/AddProject",
+                success: function (partialView) {
+                    var i = $("#divProjects").children().length;
+                    var item = $.parseHTML(partialView);
+                    item = ConvertInputsToBeAsArrayItem(item, "@nameof(Model.Projects)", i);
+                    $('#divProjects').append(item);
+                    InitializeTagsInput();
+                }
+            });
+        });
+
+        $("#btnShowPreview").on("click", function () {
+            if ($("#form").valid()) {
+                $(this).addClass("disabled");
+                $(this).attr("disabled", "disabled");
+                $("#btnShowPreviewSpinner").removeClass("d-none");
+                $("#btnShowPreviewText").text("Loading...");
+                $.ajax({
+                    type: "POST",
+                    url: "/Customer/Cv/Preview",
+                    data: $('form').serialize(),
+                    success: function (data) {
+                        var dataBytes = atob(data);
+                        var canvas = document.getElementById("pdfPreview");
+                        var warning = document.getElementById("divMoreThanOnePageWarning");
+                        RenderPdfIntoCanvas(dataBytes, canvas, warning);
+                        $("#divPreview").removeClass("d-none");
+                        $("#divDownload").removeClass("d-none");
+                    },
+                    complete: function () {
+                        $("#btnShowPreview").removeClass("disabled");
+                        $("#btnShowPreview").removeAttr("disabled");
+                        $("#btnShowPreviewSpinner").addClass("d-none");
+                        $("#btnShowPreviewText").text("Show Preview");
+                    }
+                });
+            }
+            else {
+                $("#divPreview").addClass("d-none");
+                $("#divDownload").addClass("d-none");
+                $("#form").validate().focusInvalid();
+            }
+        });
+
+        $(".theme-color-picker").ColorPickerSliders({
+            previewformat: 'hsl',
+            flat: true,
+            customswatches: false,
+            swatches: [],
+            color: '#526178',
+            order: {
+                hsl: 1,
+                preview: 2
+            },
+            labels: {
+                hslhue: 'Hue',
+                hslsaturation: "Saturation",
+                hsllightness: "Lightness",
+                preview: "Preview"
+            },
+            onchange: function (container, color) {
+                $("#ThemeColor").attr('value', color.tiny.toHexString());
+            }
+        });
+        $("#chkAgreeSave").on("click", function () {
+            var btnSave = $("#btnSave");
+            if (this.checked) {
+                btnSave.removeClass("disabled");
+                btnSave.removeAttr("disabled");
+            }
+            else {
+                btnSave.addClass("disabled");
+                btnSave.attr("disabled", "disabled");
+            }
+        });
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="_Notification" />
+
+
+<div class="container" p-3>
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Resume Templates</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="ResumeTemplates" asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                &nbsp;Add New Resume Template</a>
+        </div>
+        <br /><br />
+
+    </div>
+
+
+    <div class="overflow-auto">
+        <table id="ResumeTemplateTable" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th> Template Name </th>
+                    <th> Template Description</th>
+                    <th> Created Date</th>
+                    <th> Action </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+</div>
+    @section Scripts{
+    <script src="~/js/ResumeTemplate.js"></script>
+    }

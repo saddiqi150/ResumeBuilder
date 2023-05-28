@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model ResumeBuilder.Models.DomainModels.ResumeTemplate
+@{
+    var user = await SignInManager.UserManager.GetUserAsync(User);
+    // Get the roles for the user
+    var roles = await SignInManager.UserManager.GetRolesAsync(user);
+}
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <input asp-for="Id" hidden />
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div class="col-12 pb-2">
+                    <h2 class="text-primary">@(Model.Id != new Guid("00000000-0000-0000-0000-000000000000") ? "Update" : "Create New") Resume Template</h2>
+                    <hr />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="TemplateName">Template Name:</label>
+                    <input asp-for="TemplateName" class="form-control" />
+                    <span asp-validation-for="TemplateName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="TemplateDescription">Template Description:</label>
+                    <input asp-for="TemplateDescription" class="form-control" />
+                    <span asp-validation-for="TemplateDescription" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="IsActive">Active:</label>
+                    @Html.CheckBoxFor(m => m.IsActive )
+                    <span asp-validation-for="IsActive" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-12">
+                    @if (Model.Id != new Guid("00000000-0000-0000-0000-000000000000"))
+                    {
+                        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+
+                    }
+                    else
+                    {
+                        <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width:150px">Add</button>
+
+                    }
+                    <a asp-controller="ResumeTemplates" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

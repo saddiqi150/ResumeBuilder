@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Controllers\BankAccountController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Customer\Views\Cv\EditorTemplates\CvEducation.cshtml" />
+    <None Include="Areas\Customer\Views\Cv\EditorTemplates\CvEmployment.cshtml" />
+    <None Include="Areas\Customer\Views\Cv\EditorTemplates\CvLanguageSkill.cshtml" />
+    <None Include="Areas\Customer\Views\Cv\EditorTemplates\CvProject.cshtml" />
+    <None Include="Areas\Customer\Views\Cv\EditorTemplates\CvSkillSet.cshtml" />
+    <None Include="wwwroot\lib\bootstrap-tagsinput\bootstrap-tagsinput-angular.js" />
+    <None Include="wwwroot\lib\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js" />
+    <None Include="wwwroot\lib\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap-tagsinput\bootstrap-tagsinput.js" />
+    <None Include="wwwroot\lib\bootstrap-tagsinput\bootstrap-tagsinput.min.js" />
+    <None Include="wwwroot\lib\bootstrap-tagsinput\bootstrap-tagsinput.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-colorpickersliders\jquery.colorpickersliders.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-check.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-comment.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-help.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-insert.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-key.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-newparagraph.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-noicon.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-note.svg" />
+    <None Include="wwwroot\lib\pdf.js\images\annotation-paragraph.svg" />
+    <None Include="wwwroot\lib\pdf.js\pdf.js" />
+    <None Include="wwwroot\lib\pdf.js\pdf.js.map" />
+    <None Include="wwwroot\lib\pdf.js\pdf.min.js" />
+    <None Include="wwwroot\lib\pdf.js\pdf.worker.entry.js" />
+    <None Include="wwwroot\lib\pdf.js\pdf.worker.js" />
+    <None Include="wwwroot\lib\pdf.js\pdf.worker.js.map" />
+    <None Include="wwwroot\lib\pdf.js\pdf.worker.min.js" />
+    <None Include="wwwroot\lib\pdf.js\pdf_viewer.js" />
+    <None Include="wwwroot\lib\pdf.js\pdf_viewer.js.map" />
+    <None Include="wwwroot\lib\tinycolor.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.32" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.32" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.32">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="PuppeteerSharp" Version="2.0.0" />
+    <PackageReference Include="toastr" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\DataLayer\SeedData\" />
+  </ItemGroup>
+
+</Project>

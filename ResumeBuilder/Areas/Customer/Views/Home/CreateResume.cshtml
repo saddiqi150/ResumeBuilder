@@ -1,0 +1,158 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model ResumeBuilder.Models.ViewModel.ResumeViewModel
+@{
+    var user = await SignInManager.UserManager.GetUserAsync(User);
+    // Get the roles for the user
+    var roles = await SignInManager.UserManager.GetRolesAsync(user);
+}
+<form method="post" asp-action="CreateResume" enctype="multipart/form-data">
+    <input asp-for="Resume.Id" hidden />
+    <input asp-for="Resume.UserId" hidden />
+    <input asp-for="Resume.ImageURL" hidden />
+
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div class="col-12 pb-2">
+                    <h2 class="text-primary">@(Model.Resume.Id != new Guid("00000000-0000-0000-0000-000000000000") ? "Update" : "Create New") Resume</h2>
+                    <hr />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.FirstName">First Name:</label>
+                    <input asp-for="Resume.FirstName" class="form-control" />
+                    <span asp-validation-for="Resume.FirstName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.LastName">Last Name:</label>
+                    <input asp-for="Resume.LastName" class="form-control" />
+                    <span asp-validation-for="Resume.LastName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.Phone">Phone:</label>
+                    <input asp-for="Resume.Phone" class="form-control" />
+                    <span asp-validation-for="Resume.Phone" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.Email">Email:</label>
+                    <input asp-for="Resume.Email" class="form-control" />
+                    <span asp-validation-for="Resume.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.LinkedIn">LinkedIn:</label>
+                    <input asp-for="Resume.LinkedIn" class="form-control" />
+                    <span asp-validation-for="Resume.LinkedIn" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.Address">Address:</label>
+                    <input asp-for="Resume.Address" class="form-control" />
+                    <span asp-validation-for="Resume.Address" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.DoB">DoB:</label>
+                    <input asp-for="Resume.DoB" class="form-control" />
+                    <span asp-validation-for="Resume.DoB" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.Summary">Summary:</label>
+                    <input asp-for="Resume.Summary" class="form-control" />
+                    <span asp-validation-for="Resume.Summary" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="Resume.ResumeTemplateId">Resume Template:</label>
+                    <select asp-for="Resume.ResumeTemplateId" asp-items="@Model.ResumeTemplates" class="form-select">
+                        <option disabled selected> --Select Category-- </option>
+                    </select>
+                    <span asp-validation-for="Resume.ResumeTemplateId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resume.ImageURL">Image URL:</label>
+                    <input type="file" name="imageFile" id="uplodBox" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Resume.Summary">Summary:</label>
+                    <input asp-for="Resume.Summary" class="form-control" />
+                    <span asp-validation-for="Resume.Summary" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Resume.Language">Language:</label>
+                    <input asp-for="Resume.Language" class="form-control" />
+                    <span asp-validation-for="Resume.Language" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Resume.WorkExperience">Work Experience:</label>
+                    <input asp-for="Resume.WorkExperience" class="form-control" />
+                    <span asp-validation-for="Resume.WorkExperience" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Resume.Qualification">Qualification:</label>
+                    <input asp-for="Resume.Qualification" class="form-control" />
+                    <span asp-validation-for="Resume.Qualification" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Resume.Skills">Skills:</label>
+                    <input asp-for="Resume.Skills" class="form-control" />
+                    <span asp-validation-for="Resume.Skills" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Resume.Certificates">Certificates:</label>
+                    <input asp-for="Resume.Certificates" class="form-control" />
+                    <span asp-validation-for="Resume.Certificates" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 col-12">
+                    @if (Model.Resume.Id != new Guid("00000000-0000-0000-0000-000000000000"))
+                    {
+                        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+
+                    }
+                    else
+                    {
+                        <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width:150px">Add</button>
+
+                    }
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                        Back Home
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @*k  <div class="col-2 pt-4">
+                <img src="~/@Model.Resume.ImageURL"
+                     style="border-radius:5px; border:1px solid #bbb9b9" />
+            </div>*@
+    </div>
+
+
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        function ValidateInput() {
+            if (document.getElementById("uplodBox").value == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload an image!',
+                });
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

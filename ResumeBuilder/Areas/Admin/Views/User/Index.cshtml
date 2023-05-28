@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ResumeBuilder.Models.DomainModels.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="_Notification" />
+
+<div class="container" p-3>
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">User Accounts</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="User" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                &nbsp;Create New User
+            </a>
+        </div>
+        <br /><br />
+
+    </div>
+
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Active
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="10%">
+                        @obj.FirstName.
+                    </td>
+                    <td width="10%">
+                        @obj.LastName
+                    </td>
+                    <td width="20%">
+                        @obj.Email
+                    </td>
+
+                    <td width="10%">
+                        @obj.IsActive
+                    </td>
+                    <td width="10%">
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="User" asp-action="Edit" asp-route-userId="@obj.Id" class="btn btn-primary mx-2">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="User" asp-action="Delete" asp-route-userId="@obj.Id" class="btn btn-danger mx-2">
+                                <i class="bi bi-trash"></i>Delete
+                            </a>
+                        </div>
+                    </td>
+                   @* <td width="10%">
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="BankAccount" asp-action="FindAcc" asp-route-UserAccountId="@obj.Id" class="btn btn-primary mx-2">
+                                <i class="bi bi-pencil-square"></i> Bank Accounts
+                            </a>
+                        </div>
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
