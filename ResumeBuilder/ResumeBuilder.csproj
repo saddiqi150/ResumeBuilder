@@ -68,6 +68,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspose.PDF" Version="23.5.0" />
+    <PackageReference Include="Aspose.Words" Version="23.5.0" />
+    <PackageReference Include="DocumentFormat.OpenXml.VariableReplacer" Version="0.1.0" />
+    <PackageReference Include="HtmlConverter" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.32" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.32" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.32" />
@@ -76,13 +80,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="16.205.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="NPOI" Version="2.6.0" />
     <PackageReference Include="PuppeteerSharp" Version="2.0.0" />
+    <PackageReference Include="sautinsoft.document" Version="2023.4.19" />
     <PackageReference Include="toastr" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\DataLayer\SeedData\" />
+    <Folder Include="wwwroot\images\CvFiles\" />
   </ItemGroup>
 
 </Project>

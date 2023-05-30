@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Aspose.Words;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp.Media;
-using ResumeBuilder.Controllers;
 using ResumeBuilder.CvLogic;
 using ResumeBuilder.Models.CvModel;
 using ResumeBuilder.Models.Repository.IRepository;
@@ -22,18 +23,24 @@ namespace ResumeBuilder.Controllers
         private readonly ILogger<HomeController> logger;
         private readonly IWebHostEnvironment env;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly Dictionary<string, Template> templates;
+        private readonly Dictionary<string, CvLogic.Template> templates;
         private readonly HtmlToPdfConverter converter;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
 
-        public CvController(ILogger<HomeController> logger, IWebHostEnvironment env,
-             HtmlToPdfConverter converter, Dictionary<string, Template> templates, IUnitOfWork unitOfWork)
+        public CvController(ILogger<HomeController> logger,
+            IWebHostEnvironment env,
+             HtmlToPdfConverter converter,
+             Dictionary<string, CvLogic.Template> templates,
+             IUnitOfWork unitOfWork,
+             IWebHostEnvironment hostEnvironment)
         {
             this.logger = logger;
             this.env = env;
             this.converter = converter;
             this.templates = templates;
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
@@ -51,10 +58,10 @@ namespace ResumeBuilder.Controllers
         public IActionResult GetAllUsersCvs()
         {
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var resumes =  _unitOfWork.CvInformationRepository.GetAll();
+            var resumes = _unitOfWork.CvInformationRepository.GetAll();
             return Json(new { data = resumes });
         }
-        
+
         public IActionResult CreateCv()
         {
             var cv = new CvInformation();
@@ -81,12 +88,44 @@ namespace ResumeBuilder.Controllers
             byte[] pdfContent = await CreatePdf(cv);
             return File(pdfContent, "application/pdf", "cv.pdf");
         }
+        public async Task<IActionResult> DownloadDocs(Guid id)
+        {
+            var cv = _unitOfWork.CvInformationRepository.GetCv(id);
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+            string uploads = Path.Combine(wwwRootPath, @"images\CvFiles\");
+            var newCvName = Guid.NewGuid();
+            var outputFilePath = Path.Combine(uploads, newCvName + "_cv" + ".docx");
+            var html = await CreateHtml(cv);
+            ConvertHtmlToDoc(html, outputFilePath);
+            return File(System.IO.File.OpenRead(outputFilePath), "application/msword", Path.GetFileName(outputFilePath));
+        }
+        private void ConvertHtmlToDoc(string html, string pdfFilePath)
+        {
+            // Create a new Document
+            Document doc = new Document();
+
+
+            // Create a DocumentBuilder
+            DocumentBuilder builder = new DocumentBuilder(doc);
+
+            // Insert HTML content using DocumentBuilder
+            builder.InsertHtml(html);
+
+            // Save the Document as PDF
+            doc.Save(pdfFilePath, SaveFormat.Docx);
+        }
+
+
         public async Task<IActionResult> DownloadPdf(Guid id)
         {
             var cv = _unitOfWork.CvInformationRepository.GetCv(id);
 
             byte[] pdfContent = await CreatePdf(cv);
+
+            var file = File(pdfContent, "application/pdf", "cv.pdf");
+
             return File(pdfContent, "application/pdf", "cv.pdf");
+
         }
         [HttpPost]
         public async Task<IActionResult> CreateCv(CvInformation cv)
@@ -116,7 +155,7 @@ namespace ResumeBuilder.Controllers
         {
             CleanupEmptyListItems(cv);
             var selectedTemplate = templates[cv.TemplateName];
-            return await Task.Run(() => selectedTemplate.Renderer.FillData(cv));
+            return await System.Threading.Tasks.Task.Run(() => selectedTemplate.Renderer.FillData(cv));
         }
 
         private async Task<byte[]> CreatePdf(CvInformation cv)
@@ -162,5 +201,6 @@ namespace ResumeBuilder.Controllers
         public IActionResult AddLanguageSkill() => GetEditorTemplatePartialView(nameof(CvLanguageSkill));
 
         public IActionResult AddProject() => GetEditorTemplatePartialView(nameof(CvProject));
+
     }
 }
