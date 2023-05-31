@@ -94,6 +94,11 @@ namespace ResumeBuilder.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> AdminManagement()
+        {
+            return View();
+        }
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll()

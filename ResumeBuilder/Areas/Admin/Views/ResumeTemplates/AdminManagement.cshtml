@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "AdminManagement";
+}
+
+
+<div class="row" style="margin-top:15px;" >
+    <div class="col-md-2"></div>
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">
+                <img src="/images/admin/adminimage01.png" class="img-circle" alt="Fjords" style="width:100%">
+                <div class="caption">
+                    <p>User Accounts</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-2"></div>
+
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a class="dropdown-item " asp-area="Admin" asp-controller="ResumeTemplates" asp-action="Index">
+                <img src="/images/admin/adminimage02.png" alt="Lights" class="img-circle" style="width:100%">
+                <div class="caption">
+                <p>Resume Templates</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    <br />
+    <div class="col-md-2"></div>
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a class="dropdown-item " asp-area="Admin" asp-controller="ResumeTemplates" asp-action="ViewResume">
+                <img src="/images/admin/adminimage03.png" alt="Lights" class="img-circle" style="width:100%">
+                <div class="caption">
+                    <p>View Resume</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a class="dropdown-item " asp-area="Admin" asp-controller="ResumeTemplates" asp-action="ViewContactUs">
+                <img src="/images/admin/adminimage04.png" class="img-circle" alt="Lights" style="width:100%">
+                <div class="caption">
+                    <p>View FeedBack</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
